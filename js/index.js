@@ -18,9 +18,13 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+let lava;
+
 function preload () {
   //=========== Parallax BG =============
   //= = = = = = = = = = = = = = = = = = =
+  this.load.image('floatingIsland', './../assets/platforms/leafy_ground05.png');
+  this.load.image('lavaTall', './../assets/tallLava.png');
   this.load.image('ground', './assets/parallaxbg/01_ground.png');
   this.load.image('treesBushes', './assets/parallaxbg/02_treesandbushes.png');
   this.load.image('distantTrees', './assets/parallaxbg/03_distant_trees.png');
@@ -31,6 +35,7 @@ function preload () {
   this.load.image('clouds', './assets/parallaxbg/08_clouds.png');
   this.load.image('distantClouds1', './assets/parallaxbg/09_distant_clouds1.png');
   this.load.image('distantClouds2', './assets/parallaxbg/10_distant_clouds.png');
+  this.load.image('tallBG', './../assets/tallBG.png');
   this.load.image('background', './assets/parallaxbg/11_background.png');
   this.load.image('platform', './assets/parallaxbg/platform.png');
   //= = = = = = = = = = = = = = = = = = =
@@ -49,20 +54,22 @@ function preload () {
 }
 
 function create () {
+  
   //============ Parallax BG ===============
   //= = = = = = = = = = = = = = = = = = = =
   let scrollBG = 
-      this.add.image(400,300,'background');
-      this.hugeClouds = this.add.tileSprite(400, 300, 800, 600, 'hugeClouds');
-      this.clouds = this.add.tileSprite(400, 300, 800, 600,'clouds');
-      this.distantClouds1 = this.add.tileSprite(400, 300, 800, 600, 'distantClouds1');
-      this.distantClouds2 = this.add.tileSprite(400, 300, 800, 600, 'distantClouds2');
-      this.hill1 = this.add.tileSprite(400, 285, 800, 600,'hill1');
-      this.hill2 = this.add.tileSprite(400, 300, 800, 600,'hill2');
-      this.bushes = this.add.tileSprite(400, 300, 800, 600,'bushes');
-      this.distantTrees = this.add.tileSprite(400, 300, 800, 600, 'distantTrees');
-      this.treesBushes = this.add.tileSprite(400, 455, 1100, 900, 'treesBushes');
-      // this.ground = this.add.tileSprite(400, 350, 800, 600,'ground');
+      this.tallBG = this.add.tileSprite(0,0,800,3000,'tallBG').setOrigin(0,0);
+      // this.add.image(400,300,'background');
+      this.hugeClouds = this.add.tileSprite(400, 2650, 800, 600, 'hugeClouds');
+      this.clouds = this.add.tileSprite(400, 2700, 800, 600,'clouds');
+      this.distantClouds1 = this.add.tileSprite(400, 2700, 800, 600, 'distantClouds1');
+      this.distantClouds2 = this.add.tileSprite(400, 2700, 800, 600, 'distantClouds2');
+      this.hill1 = this.add.tileSprite(400, 2685, 800, 600,'hill1');
+      this.hill2 = this.add.tileSprite(400, 2700, 800, 600,'hill2');
+      this.bushes = this.add.tileSprite(400, 2700, 800, 600,'bushes');
+      this.distantTrees = this.add.tileSprite(400, 2700, 800, 600, 'distantTrees');
+      this.treesBushes = this.add.tileSprite(400, 2850, 1100, 900, 'treesBushes');
+      // this.ground = this.add.tileSprite(400, 570, 800, 60,'ground');
 
   //= = = = = = = = = = = = = = = = = = = = 
   //========== End Parallax BG ============
@@ -70,23 +77,36 @@ function create () {
   //============ Phaser Example ============
   //= = = = = = = = Ground = = = = = = = = 
   platforms = this.physics.add.staticGroup();
-  platforms.create(400, 580, 'ground');
-  platforms.create(295, 100, 'platform');
-  platforms.create(500, 400, 'platform');
-  platforms.create(70, 275, 'platform');
-  platforms.create(700, 220, 'platform');
+  platforms.create(400, 3000, 'ground');
+  platforms.create(295, 2500, 'platform');
+  platforms.create(500, 2800, 'platform');
+  platforms.create(70, 2650, 'platform');
+  platforms.create(700, 2650, 'platform');
+  platforms.create(700,2400, 'floatingIsland');
   //= = = = = = = = = = = = = = = = = = = = 
   //============ Phaser Example ============
+  
+  // this.floatingIsland = this.add.image(700,2400, "floatingIsland");
 
   //============ Player ============
 
-  player = this.physics.add.sprite(100, 450, 'dude');
+  player = this.physics.add.sprite(200, 2770, 'dude');
   player.body.setGravityY(10)
   this.physics.add.collider(player, platforms);
+  this.physics.add.collider(player, lava);
   cursors = this.input.keyboard.createCursorKeys();
-
+  
+  //============ Camera ============
+  //= = = = = = = = = = = = = = = =
+  var camera = this.cameras.main;
+  camera.setViewport(0, 0, 800, 600);
+  this.cameras.main.startFollow(player,true); 
+  camera.setBounds(0,0,800,3000);
+  //= = = = = = = = = = = = = = = = 
+  //=========== End Camera =========
 
   player.setBounce(.2);
+  this.physics.world.setBounds(0,0,800,3000)
   player.setCollideWorldBounds(true);
 
   this.anims.create({
@@ -151,6 +171,7 @@ function create () {
   scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
   score += 10;
   scoreText.setText('Score: ' + score);
+  scoreText.setScrollFactor(0)
   //======= End Score ==============
 
   //=========== Bombs ==============
@@ -169,6 +190,8 @@ function create () {
       gameOver = true;
   }
   //======== End Bombs ============
+  lava = this.lavaTile = this.add.tileSprite(0,2975,800,3000, 'lavaTall').setOrigin(0,0);
+
 }
 
 
@@ -196,15 +219,35 @@ function update () {
   {
       player.setVelocityY(-350);
   }
-  //console.log(this)
-  this.treesBushes.tilePositionX += 0.2;
-  this.distantTrees.tilePositionX += 0.17;
-  this.bushes.tilePositionX += 0.3;
-  this.hugeClouds.tilePositionX += .3;
+
+  
+  this.treesBushes.tilePositionX += 0.1;
+  this.distantTrees.tilePositionX += 0.15;
+  this.bushes.tilePositionX += 0.2;
+  this.hugeClouds.tilePositionX += .28;
   this.hill1.tilePositionX += 0.13
-  this.hill2.tilePositionX += 0.27;
+  this.hill2.tilePositionX += 0.1;
   this.clouds.tilePositionX += 0.50;
   this.distantClouds1.tilePositionX -= 0.3;
   this.distantClouds2.tilePositionX -= 0.4;
-  // this.ground.tilePositionX += .2;
+  this.lavaTile.tilePositionX += 2;
+
+  function moveLava() {
+    lava.y-=0.2;
+  }
+  
+  // moveLava();
+
+  if (player.y + player.height/2 > lava.y) {
+    this.add.text(450,100,'Game Over', {
+      font:'42px Arial black',
+      fill: '#000'
+    }).setScrollFactor(0)
+
+    this.scene.pause()
+
+    player.setTint(0xff0000);
+
+      player.anims.play('turn');
+  }
 }
