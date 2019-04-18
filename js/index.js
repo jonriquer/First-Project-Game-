@@ -48,9 +48,9 @@ function preload () {
   this.load.image('ground', './assets/01_ground.png');
   this.load.image('platform', './assets/platform.png');
   this.load.image('rockyTall', './assets/rockyTall.png');
-  this.load.image('rockFloorLong', './assets/platforms/rocky3.png');
-  this.load.image('rockFloor', './assets/platforms/rocky02.png');
-  this.load.image('floatingIsland', './assets/platforms/leafy_ground05.png');
+  this.load.image('rockFloorLong', './assets/rocky3.png');
+  this.load.image('rockFloor', './assets/rocky02.png');
+  this.load.image('floatingIsland', './assets/leafy_ground05.png');
   //========= End Main Structure ===========
 
   //=============== Extras =================
