@@ -40,8 +40,8 @@ function preload () {
   this.load.image('clouds', './assets/parallaxbg/08_clouds.png');
   this.load.image('distantClouds1', './assets/parallaxbg/09_distant_clouds1.png');
   this.load.image('distantClouds2', './assets/parallaxbg/10_distant_clouds.png');
-  this.load.image('tallBG', './../assets/tallBG.png');
-  this.load.image('lavaTall', './../assets/tallLava.png');
+  this.load.image('tallBG', './assets/tallBG.png');
+  this.load.image('lavaTall', './assets/tallLava.png');
   //========== End Background ===========
 
   //========== Main Structure ============
