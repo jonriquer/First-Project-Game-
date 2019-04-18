@@ -31,54 +31,54 @@ function preload () {
     {frameWidth: 50, frameHeight: 60}
   );
   //=========== Background =============
-  this.load.image('treesBushes', './assets/parallaxbg/02_treesandbushes.png');
-  this.load.image('distantTrees', './assets/parallaxbg/03_distant_trees.png');
-  this.load.image('bushes', './assets/parallaxbg/04_bushes.png');
-  this.load.image('hill1', './assets/parallaxbg/05_hill1.png');
-  this.load.image('hill2', './assets/parallaxbg/06_hill2.png');
-  this.load.image('hugeClouds', './assets/parallaxbg/07_huge_clouds.png');
-  this.load.image('clouds', './assets/parallaxbg/08_clouds.png');
-  this.load.image('distantClouds1', './assets/parallaxbg/09_distant_clouds1.png');
-  this.load.image('distantClouds2', './assets/parallaxbg/10_distant_clouds.png');
+  this.load.image('treesBushes', './assets/02_treesandbushes.png');
+  this.load.image('distantTrees', './assets/03_distant_trees.png');
+  this.load.image('bushes', './assets/04_bushes.png');
+  this.load.image('hill1', './assets/05_hill1.png');
+  this.load.image('hill2', './assets/06_hill2.png');
+  this.load.image('hugeClouds', './assets/07_huge_clouds.png');
+  this.load.image('clouds', './assets/08_clouds.png');
+  this.load.image('distantClouds1', './assets/09_distant_clouds1.png');
+  this.load.image('distantClouds2', './assets/10_distant_clouds.png');
   this.load.image('tallBG', './assets/tallBG.png');
   this.load.image('lavaTall', './assets/tallLava.png');
   //========== End Background ===========
 
   //========== Main Structure ============
-  this.load.image('ground', './assets/parallaxbg/01_ground.png');
-  this.load.image('platform', './assets/parallaxbg/platform.png');
-  this.load.image('rockyTall', './../assets/rockyTall.png');
-  this.load.image('rockFloorLong', './../assets/platforms/rocky3.png');
-  this.load.image('rockFloor', './../assets/platforms/rocky02.png');
-  this.load.image('floatingIsland', './../assets/platforms/leafy_ground05.png');
+  this.load.image('ground', './assets/01_ground.png');
+  this.load.image('platform', './assets/platform.png');
+  this.load.image('rockyTall', './assets/rockyTall.png');
+  this.load.image('rockFloorLong', './assets/platforms/rocky3.png');
+  this.load.image('rockFloor', './assets/platforms/rocky02.png');
+  this.load.image('floatingIsland', './assets/platforms/leafy_ground05.png');
   //========= End Main Structure ===========
 
   //=============== Extras =================
   this.load.image('banana', './assets/banana.png');
-  this.load.image('crystalGreen', '/assets/crystalGreen.png');
-  this.load.image('crystalRed', '/assets/crystalRed.png');
+  this.load.image('crystalGreen', './assets/crystalGreen.png');
+  this.load.image('crystalRed', './assets/crystalRed.png');
   this.load.image('bomb', './assets/asteroid.png');
-  this.load.image('lookUp', './../assets/boardUp.png');
-  this.load.image('lookLeft', './../assets/boardLeft.png');
-  this.load.image('groundBottom', './../assets/groundBottom.png');
-  this.load.image('bigStone', './../assets/bigStone.png');
-  this.load.image('nest', './../assets/spikes and grass.png');
-  this.load.image('poisonNest', './../assets/poisonNest.png');
-  this.load.image('firstNest', './../assets/platforms/grassyFloor.png');
-  this.load.image('treasure', './../assets/treasureChest.png');
-  this.load.image('dangerSign', './../assets/danger.png');
-  this.load.image('singleMush', './../assets/singleMushroom.png');
-  this.load.image('tresMap', './../assets/treasureMap.png');
-  this.load.image('boardUp', './../assets/boardUp.png');
-  this.load.image('flower1', './../assets/flower1.png');
-  this.load.image('flower2', './../assets/flower2 .png');
-  this.load.image('smallRock', './../assets/smallRock.png');
-  this.load.image('tinyRock', './../assets/tinyRock.png');
-  this.load.image('venus', './../assets/vine.png');
-  this.load.image('vertGroundRight', './../assets/groundTall.png');
-  this.load.image('vertGroundLeft', './../assets/groundTallLeft.png');
-  this.load.image('groundTop', './../assets/groundTop.png');
-  this.load.image('topGround', './../assets/topGround.png');
+  this.load.image('lookUp', './assets/boardUp.png');
+  this.load.image('lookLeft', './assets/boardLeft.png');
+  this.load.image('groundBottom', './assets/groundBottom.png');
+  this.load.image('bigStone', './assets/bigStone.png');
+  this.load.image('nest', './assets/spikes and grass.png');
+  this.load.image('poisonNest', './assets/poisonNest.png');
+  this.load.image('firstNest', './assets/platforms/grassyFloor.png');
+  this.load.image('treasure', './assets/treasureChest.png');
+  this.load.image('dangerSign', './assets/danger.png');
+  this.load.image('singleMush', './assets/singleMushroom.png');
+  this.load.image('tresMap', './assets/treasureMap.png');
+  this.load.image('boardUp', './assets/boardUp.png');
+  this.load.image('flower1', './assets/flower1.png');
+  this.load.image('flower2', './assets/flower2 .png');
+  this.load.image('smallRock', './assets/smallRock.png');
+  this.load.image('tinyRock', './assets/tinyRock.png');
+  this.load.image('venus', './assets/vine.png');
+  this.load.image('vertGroundRight', './assets/groundTall.png');
+  this.load.image('vertGroundLeft', './assets/groundTallLeft.png');
+  this.load.image('groundTop', './assets/groundTop.png');
+  this.load.image('topGround', './assets/topGround.png');
 
   //============== End Extras ================
 }
