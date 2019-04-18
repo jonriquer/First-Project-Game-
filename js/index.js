@@ -64,7 +64,7 @@ function preload () {
   this.load.image('bigStone', './assets/bigStone.png');
   this.load.image('nest', './assets/spikes and grass.png');
   this.load.image('poisonNest', './assets/poisonNest.png');
-  this.load.image('firstNest', './assets/platforms/grassyFloor.png');
+  this.load.image('firstNest', './assets/grassyFloor.png');
   this.load.image('treasure', './assets/treasureChest.png');
   this.load.image('dangerSign', './assets/danger.png');
   this.load.image('singleMush', './assets/singleMushroom.png');
