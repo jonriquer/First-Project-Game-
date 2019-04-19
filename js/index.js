@@ -496,7 +496,7 @@ function update () {
   }
   if (bananas.countActive(true) === 0) {
     moveLava();
-    let lavaRising = true;
+    lavaRising = true;
   }
   //======= End Lava Movement ======
 
