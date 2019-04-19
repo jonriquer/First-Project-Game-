@@ -20,10 +20,17 @@ var game = new Phaser.Game(config);
 
 //========== Global Variables ==========
 let lava;
-// let bananas;
-// let treas;
+let lavaRising;
+let bubbling;
+let dyingSound;
+let jumpingSound;
+let coinSound;
+let goHome; 
+let jumping = false;
 var moveLeft = true
+
 //======== End Global Variables ========
+
 
 function preload () {
   this.load.spritesheet(
@@ -79,13 +86,18 @@ function preload () {
   this.load.image('vertGroundLeft', './assets/groundTallLeft.png');
   this.load.image('groundTop', './assets/groundTop.png');
   this.load.image('topGround', './assets/topGround.png');
-
+  this.load.audio('bubblingLava', "./assets/lava.mp3");
+  this.load.audio('coins', './assets/coins.mp3');
+  this.load.audio('dying', './assets/dying.mp3');
+  this.load.audio('jumping', './assets/jumping.mp3');
+  this.load.audio('goingHome', './assets/goHome.mp3');
   //============== End Extras ================
 }
 
 
 function create() {
-  
+  // let bubbling = this.sound.add('bubblingLava');
+  // bubbling.play( {loop:true,volume : 1});
   //============ Parallax BG ===============
   //= = = = = = = = = = = = = = = = = = = =
     this.tallBG = this.add.tileSprite(0,0,800,3000,'tallBG').setOrigin(0,0);
@@ -138,9 +150,8 @@ function create() {
     platforms.create(600,100, 'topGround');
     platforms.create(550,825, 'topGround');
     platforms.create(650,925, 'topGround');
-    
-
-
+  //= = = = = = = = = = = = = = = = = = = = = = = = = = = = =  
+  //==================== End Platforms =======================
 
 
   // Items on Platforms 
@@ -160,11 +171,7 @@ function create() {
     this.add.image(360,1110,'vertGroundLeft');
     this.add.image(250,1375,'groundTop');
 
-  //= = = = = = = = = = = = = = = = = = = = = = = = = = = = =  
-  //==================== End Platforms =======================
- 
-
-
+  
   //============ Player ==============
   //= = = = = = = = = = = = = = = = =
   player = this.physics.add.sprite(100, 2800, 'dude');
@@ -172,7 +179,8 @@ function create() {
   this.physics.add.collider(player, platforms);
   this.physics.add.collider(player, lava);
   cursors = this.input.keyboard.createCursorKeys();
-  
+  jumpingSound = this.sound.add('jumping');
+
   //============ Camera ============
   var camera = this.cameras.main;
   camera.setViewport(0, 0, 800, 600);
@@ -229,17 +237,15 @@ function create() {
   });
   this.physics.add.collider(bananas, platforms);
   this.physics.add.overlap(player, bananas, collectStar, null, this);
-  
+
   function collectStar (player, banana) {
     banana.disableBody(true, true);
     score += 10;
     scoreText.setText('Score: ' + score);
 
     if (bananas.countActive(true) === 0) {
-    //   bananas.children.iterate(function (child) {
-    //     child.enableBody(true, child.x, 0, true, true);
-    //   });
-
+      bubbling = this.sound.add('bubblingLava', {loop:true})
+      bubbling.play()
       var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
       var bomb = bombs.create(x, 2450, 'bomb')
       bomb.setBounce(1);
@@ -264,6 +270,8 @@ function create() {
     crystalGreen.disableBody(true, true);
     score += 25;
     scoreText.setText('Score: ' + score);
+    coinSound = this.sound.add('coins')
+    coinSound.play();
   }
 
     redCrystal = this.physics.add.group();
@@ -276,7 +284,6 @@ function create() {
       youWon(_this);
       score += 1000;
       scoreText.setText('Score: ' + score);
-      console.log(redCrystal)
       redCrystal.children.entries[0].setScale(100);
       
     }
@@ -285,7 +292,12 @@ function create() {
         font:'42px Arial black',
         fill: '#000'
         }).setScrollFactor(0);
-        // _this.physics.pause();
+        if (lavaRising) {
+          bubbling.pause()
+        }
+        goHome = _this.sound.add('goingHome')
+        goHome.play();
+
         _this.scene.pause();
       }
 
@@ -302,6 +314,8 @@ function create() {
         }
     },
     10)
+    coinSound = this.sound.add('coins')
+    coinSound.play();
   }
   
 
@@ -362,13 +376,17 @@ function create() {
 
   this.physics.add.collider(player, bombs, hitBomb, null, this);
   function hitBomb (player, bomb) {
+      dyingSound = this.sound.add('dying')
+      dyingSound.play();
       this.physics.pause();
 
       player.setTint(0xff0000);
 
       player.anims.play('turn');
-
+      bubbling.pause()
       gameOver = true;
+      
+      
   }
   //======== End Asteroids ============
 
@@ -384,11 +402,17 @@ function create() {
      font:'42px Arial black',
      fill: '#000'
      }).setScrollFactor(0);
+     dyingSound = this.sound.add('dying')
+     dyingSound.play();
      this.physics.pause();
 
      player.setTint(0xff0000);
 
      player.anims.play('turn');
+
+     if (lavaRising) {
+      bubbling.pause()
+    }
 
      gameOver = true;
    }
@@ -411,6 +435,9 @@ function create() {
         player.anims.play('turn');
    
         gameOver = true;
+        if (lavaRising) {
+          bubbling.pause()
+        }
     }
 
   //==== Lava ====
@@ -440,7 +467,14 @@ function update () {
   }
   if (cursors.up.isDown && player.body.touching.down) {
     player.setVelocityY(-350);
+    jumping = false;
   }
+  if (cursors.up.isDown && !jumping) {
+        jumpingSound.play()
+        jumping = true; 
+  }
+  
+  
   //======== End Player Movement ========
 
   //========== Parallax BG Scroll ============
@@ -451,8 +485,8 @@ function update () {
   this.hill1.tilePositionX += 0.13
   this.hill2.tilePositionX += 0.1;
   this.clouds.tilePositionX += 0.50;
-  this.distantClouds1.tilePositionX -= 0.3;
-  this.distantClouds2.tilePositionX -= 0.4;
+  this.distantClouds1.tilePositionX -= 1.3;
+  this.distantClouds2.tilePositionX -= 1.4;
   //========= End Parallax BG Scroll ========
 
   //======== Lava Movement ========
@@ -462,6 +496,7 @@ function update () {
   }
   if (bananas.countActive(true) === 0) {
     moveLava();
+    let lavaRising = true;
   }
   //======= End Lava Movement ======
 
@@ -471,6 +506,9 @@ function update () {
       font:'42px Arial black',
       fill: '#000'
     }).setScrollFactor(0)
+    dyingSound = this.sound.add('dying')
+    dyingSound.play();
+    bubbling.pause()
 
     this.scene.pause()
 

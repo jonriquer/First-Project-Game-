@@ -5,4 +5,9 @@ body {
   align-items: center;
   width:100vw;
   height: 100vh;
+  background-image: url("../assets/02_treesandbushes.png");
+  background-position-y: bottom;
+  background-repeat: no-repeat;
+  background-position: center;
+  
 }
